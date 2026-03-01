@@ -1,20 +1,30 @@
-// スクロールでナビゲーションの外観を変更
-window.addEventListener('scroll', () => {
-    const nav = document.querySelector('#js-nav');
-    if (window.scrollY > 100) {
-        nav.classList.add('scrolled');
-    } else {
-        nav.classList.remove('scrolled');
-    }
+document.addEventListener('DOMContentLoaded', () => {
+    const heroContent = document.querySelector('.hero-content');
+    
+    // ヒーローエリアのフェードイン
+    heroContent.style.opacity = "0";
+    heroContent.style.transform = "translateY(20px)";
+    heroContent.style.transition = "all 2.5s ease-out";
+    
+    setTimeout(() => {
+        heroContent.style.opacity = "1";
+        heroContent.style.transform = "translateY(0)";
+    }, 300);
 });
 
-// ふわっと表示されるアニメーション
+// 各セクションのスクロールアニメーション
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            entry.target.classList.add('active');
+            entry.target.style.opacity = "1";
+            entry.target.style.transform = "translateY(0)";
         }
     });
 }, { threshold: 0.1 });
 
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+document.querySelectorAll('.section').forEach(section => {
+    section.style.opacity = "0";
+    section.style.transform = "translateY(40px)";
+    section.style.transition = "all 1.5s ease-out";
+    observer.observe(section);
+});
